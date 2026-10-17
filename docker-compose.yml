@@ -31,7 +31,7 @@ services:
       - "8123:8123"
       - "9001:9000"
     volumes:
-      - linewatch_clickhouse_data:/var/lib/clickhouse
+      - clickhouse_data:/var/lib/clickhouse
 
   clickhouse-init:
     image: clickhouse/clickhouse-server:25.1
@@ -101,4 +101,4 @@ services:
       - "3001:3000"
 
 volumes:
-  linewatch_clickhouse_data:
+  clickhouse_data:
