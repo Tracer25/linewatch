@@ -167,3 +167,4 @@ ORDER BY c DESC;
 
 - The server also prints periodic in-memory summaries (by rule, agent, severity).
 - The root project contains the Linewatch (C++) alert pipeline and a separate `common/mortgage_rag` Python demo.
+- The rebrand changes Prometheus metric names and ClickHouse database identifiers. Update external queries that use the previous names; existing ClickHouse rows are not migrated automatically.
