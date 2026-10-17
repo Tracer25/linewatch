@@ -106,11 +106,11 @@ int Alert::extract_int(const std::string& json, const std::string& key) {
 // ------------------------------------------------------------
 Alert Alert::from_json(const std::string& json) {
     Alert a;
-    a.agent_id          = extract_string(json, "agent_id");
-    a.timestamp         = extract_string(json, "ts");
-    a.rule_name         = extract_string(json, "rule");
-    a.severity          = extract_int   (json, "severity");
-    a.source_file       = extract_string(json, "src");
+    a.agent_id = extract_string(json, "agent_id");
+    a.timestamp = extract_string(json, "ts");
+    a.rule_name = extract_string(json, "rule");
+    a.severity = extract_int   (json, "severity");
+    a.source_file= extract_string(json, "src");
     a.original_log_line = extract_string(json, "line");
     return a;
 }

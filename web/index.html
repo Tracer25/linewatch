@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#090a0c">
+    <meta name="description" content="Linewatch security monitoring console.">
+    <title>Linewatch — Security Console</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-nav">
+        <a class="brand" href="#overview" aria-label="Linewatch home">
+          <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+          <span class="brand-name">linewatch<span class="brand-period">.</span></span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="nav-item active" data-page="overview" type="button">Overview</button>
+          <button class="nav-item" data-page="alerts" type="button">Alerts<span class="nav-count" id="nav-alert-count">3</span></button>
+          <button class="nav-item" data-page="agents" type="button">Servers</button>
+          <button class="nav-item" data-page="detections" type="button">Detection rules</button>
+        </nav>
+        <div class="topbar-actions">
+          <button class="nav-settings" data-page="settings" type="button">Settings</button>
+          <span class="environment-pill"><i></i> LOCAL DEMO</span>
+          <button class="button button-dark nav-add-server" id="add-agent-top" type="button">Add a server <span>↗</span></button>
+        </div>
+      </header>
+
+      <main class="main-content">
+
+        <section class="page-view active" id="page-overview">
+          <section class="hero">
+            <div class="hero-kicker"><span></span> SECURITY, IN CLEAR VIEW</div>
+            <h1>Know what’s happening.<br><span>Skip the noise.</span></h1>
+            <p>Linewatch brings the important moments in your server logs into focus, so you can see what needs a closer look.</p>
+            <button class="hero-cta" data-go="alerts" type="button">Explore the alert feed <span>→</span></button>
+            <div class="hero-proof"><span><i></i> LOCAL-FIRST MONITORING</span><span><i></i> BUILT AROUND YOUR LOGS</span></div>
+          </section>
+
+          <div class="demo-notice">
+            <span class="notice-icon">i</span>
+            <span><strong>SIMULATION MODE.</strong> Alert and server records are examples. Live counters reflect your local DIDS process; no events are sent outside this machine.</span>
+            <button class="notice-dismiss" type="button" aria-label="Dismiss notice">×</button>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card">
+              <div class="metric-label">Agent sessions <span class="info-tip" title="Connections accepted by the local DIDS server since it started">i</span></div>
+              <div class="metric-value"><span id="connection-count">—</span><span class="metric-unit">accepted</span></div>
+              <div class="metric-foot"><span class="metric-status" id="server-state"><i></i> Checking local server</span><span class="metric-foot-note">since process start</span></div>
+              <div class="metric-spark spark-green"><svg viewBox="0 0 140 38" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C12 29 10 19 23 22 S34 29 45 20 S57 23 68 15 S81 20 92 12 S108 22 118 11 S131 13 140 5" /></svg></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">Alerts received <span class="info-tip" title="Alerts received since the server started">i</span></div>
+              <div class="metric-value"><span id="alert-count">—</span><span class="metric-unit">since start</span></div>
+              <div class="metric-foot"><span class="metric-status muted" id="alert-counter-note">Waiting for local server</span><span class="metric-foot-note">live counter</span></div>
+              <div class="metric-spark spark-amber"><svg viewBox="0 0 140 38" preserveAspectRatio="none" aria-hidden="true"><path d="M0 31 C15 30 13 24 26 28 S39 21 50 25 S62 9 74 20 S86 26 96 17 S107 24 116 12 S130 18 140 5" /></svg></div>
+            </article>
+            <article class="metric-card metric-card-quiet">
+              <div class="metric-label">Inbox preview <span class="info-tip" title="Example alert cards for previewing the interface">i</span></div>
+              <div class="metric-value"><span id="sample-count">3</span><span class="metric-unit">example events</span></div>
+              <div class="metric-foot"><span class="sample-label"><span class="sample-dot"></span> SIMULATED · NOT LIVE</span></div>
+              <div class="metric-spark spark-blue"><svg viewBox="0 0 140 38" preserveAspectRatio="none" aria-hidden="true"><path d="M0 27 C12 28 17 18 27 22 S42 30 52 17 S65 25 76 18 S91 8 101 18 S117 24 126 11 S135 15 140 7" /></svg></div>
+            </article>
+          </div>
+
+          <section class="monitor-frame">
+            <div class="monitor-frame-heading">
+              <div><span class="section-kicker">LIVE VIEW</span><h2>Security activity</h2></div>
+              <button class="button button-outline" id="refresh-button" type="button"><span class="refresh-icon">↻</span> Refresh</button>
+            </div>
+            <div class="activity-layout">
+            <section class="panel recent-panel">
+              <div class="panel-heading"><div><h3>Event stream</h3><p>Simulated events · not findings from your system</p></div><span class="panel-badge">SIMULATION</span></div>
+              <div class="recent-list" id="recent-alerts"></div>
+              <button class="panel-footer-link" data-go="alerts" type="button">Open all alerts <span>→</span></button>
+            </section>
+            <section class="panel system-panel">
+              <div class="panel-heading"><div><h3>Sensor link</h3><p>Local DIDS ingestion process</p></div><span class="connection-indicator" id="connection-indicator"><i></i><span>CHECKING</span></span></div>
+              <div class="connection-body">
+                <div class="connection-symbol"><span class="brand-mark small"><span></span><span></span><span></span><span></span></span></div>
+                <div><strong id="connection-title">Looking for your server</strong><p id="connection-description">Checking localhost:9464 for live metrics.</p></div>
+              </div>
+              <div class="system-details"><div><span>Metrics endpoint</span><code>localhost:9464</code></div><div><span>Alert receiver</span><code>localhost:9000</code></div><div><span>Last checked</span><span id="last-checked">—</span></div></div>
+              <div class="system-footnote"><span>i</span> Sample alerts are separate from live server metrics.</div>
+            </section>
+            </div>
+            <div class="monitor-frame-foot"><span><i></i> TELEMETRY LINK <strong id="frame-link-status">CHECKING</strong></span><button class="subtle-link" data-go="alerts" type="button">Open alert inbox <span>→</span></button></div>
+          </section>
+
+          <div class="section-heading rules-heading hidden">
+            <div><div class="section-kicker">WHAT THE AGENT LOOKS FOR</div><h2>Detection rules</h2></div>
+            <button class="subtle-link" data-go="detections" type="button">Review rules <span>→</span></button>
+          </div>
+          <div class="rule-preview-grid hidden" id="rule-preview"></div>
+          <footer class="page-footer"><span>LINEWATCH <span class="footer-separator">·</span> LOCAL SIMULATION</span><span>Log files can contain sensitive information. Use synthetic data for this demo.</span></footer>
+        </section>
+
+        <section class="page-view" id="page-alerts">
+          <div class="page-heading">
+            <div><div class="eyebrow">MONITOR <span class="heading-dot">/</span> INBOX</div><h1>Alert inbox</h1><p class="page-subtitle">A place to review events. Preview records are labeled; the local server does not keep alert history.</p></div>
+            <button class="button button-outline" id="make-alert-button" type="button"><span>＋</span> Add sample alert</button>
+          </div>
+          <div class="inbox-toolbar">
+            <label class="search-box"><span>⌕</span><input id="alert-search" type="search" placeholder="Search alerts" aria-label="Search alerts"><kbd>⌘ K</kbd></label>
+            <div class="filter-group" role="group" aria-label="Filter alert severity">
+              <button class="filter-button active" data-filter="all" type="button">All <span id="filter-all-count">3</span></button>
+              <button class="filter-button" data-filter="high" type="button"><i class="severity-dot high"></i>High</button>
+              <button class="filter-button" data-filter="medium" type="button"><i class="severity-dot medium"></i>Medium</button>
+              <button class="filter-button" data-filter="low" type="button"><i class="severity-dot low"></i>Low</button>
+            </div>
+            <button class="button button-outline button-small" id="status-filter" type="button">All statuses <span>⌄</span></button>
+          </div>
+          <section class="panel inbox-panel">
+            <div class="inbox-table-head"><span>ALERT</span><span>SERVER</span><span>SEVERITY</span><span>STATUS</span><span>WHEN</span><span></span></div>
+            <div id="alert-rows"></div>
+            <div class="empty-state hidden" id="empty-alerts"><span class="empty-icon">⌕</span><strong>No alerts match that search.</strong><p>Try another term or clear the severity filter.</p><button class="subtle-link" id="clear-filters" type="button">Clear filters</button></div>
+            <div class="table-foot"><span id="alert-summary">Showing 3 sample alerts</span><span>History is held in this browser for the demo only.</span></div>
+          </section>
+          <footer class="page-footer"><span>LINEWATCH <span class="footer-separator">·</span> LOCAL SIMULATION</span><span>Sample events are not real security incidents.</span></footer>
+        </section>
+
+        <section class="page-view" id="page-agents">
+          <div class="page-heading">
+            <div><div class="eyebrow">MONITOR <span class="heading-dot">/</span> INVENTORY</div><h1>Your servers</h1><p class="page-subtitle">Know which machines are checking in. The entries below are examples, not connected agents.</p></div>
+            <button class="button button-dark" id="add-agent-button" type="button"><span>＋</span> Add a server</button>
+          </div>
+          <div class="inventory-summary"><div><span class="inventory-number">02</span><span>sample servers</span></div><span class="inventory-note"><i></i> No agent inventory API in this prototype</span></div>
+          <section class="panel agents-panel"><div class="agent-table-head"><span>SERVER</span><span>PLATFORM</span><span>LOG SOURCE</span><span>STATUS</span><span>LAST SEEN</span><span></span></div><div id="agent-rows"></div></section>
+          <div class="agent-callout"><div class="callout-icon">＋</div><div><strong>Start with one machine.</strong><p>Install an agent on a system you own and point it to a text log. The current agent reads new lines only; macOS unified logs are not supported yet.</p></div><button class="subtle-link" id="agent-callout-action" type="button">See setup notes <span>→</span></button></div>
+          <footer class="page-footer"><span>LINEWATCH <span class="footer-separator">·</span> LOCAL SIMULATION</span><span>Agent enrollment and identity verification are not implemented.</span></footer>
+        </section>
+
+        <section class="page-view" id="page-detections">
+          <div class="page-heading">
+            <div><div class="eyebrow">MONITOR <span class="heading-dot">/</span> CONFIGURATION</div><h1>Detection rules</h1><p class="page-subtitle">A short list of patterns the current agent can spot in new log lines.</p></div>
+            <span class="local-only-pill"><i></i> THIS BROWSER ONLY</span>
+          </div>
+          <div class="rules-intro"><span class="rules-intro-icon">◎</span><p><strong>Simple matching, not threat intelligence.</strong> Rules are case-sensitive text checks in the current prototype. Turning a rule off here changes only this preview; it does not change the C++ agent.</p></div>
+          <div class="rule-list" id="rule-list"></div>
+          <footer class="page-footer"><span>LINEWATCH <span class="footer-separator">·</span> LOCAL SIMULATION</span><span>Detection coverage is limited. These rules do not guarantee threat detection.</span></footer>
+        </section>
+
+        <section class="page-view" id="page-settings">
+          <div class="page-heading"><div><div class="eyebrow">WORKSPACE <span class="heading-dot">/</span> PREFERENCES</div><h1>Settings</h1><p class="page-subtitle">A few notes on this local preview and the data it uses.</p></div></div>
+          <div class="settings-layout">
+            <section class="panel settings-panel"><div class="panel-heading"><div><h3>Workspace</h3><p>Local browser preview</p></div></div><div class="setting-row"><div><strong>Workspace name</strong><p>Shown in the console navigation.</p></div><span class="setting-value">Local workspace</span></div><div class="setting-row"><div><strong>Demo records</strong><p>Example alerts and servers are stored in this browser.</p></div><button class="button button-outline button-small" id="reset-demo" type="button">Reset preview</button></div></section>
+            <section class="panel settings-panel"><div class="panel-heading"><div><h3>Data and privacy</h3><p>Read before connecting a real log source</p></div></div><div class="privacy-note"><span class="privacy-icon">!</span><div><strong>Log lines may contain sensitive information.</strong><p>The agent forwards the full line for matches. Use synthetic logs for this demo. This UI has no sign-in, access controls, or secure enrollment. Keep it local; don’t connect production logs or expose the service to a network.</p></div></div><div class="setting-row"><div><strong>Metrics endpoint</strong><p>Local DIDS server, if running.</p></div><code class="setting-code">127.0.0.1:9464</code></div></section>
+            <section class="panel settings-panel"><div class="panel-heading"><div><h3>What works today</h3><p>Prototype boundaries</p></div></div><div class="capability-list"><div><span class="capability-check">✓</span> Tail a regular text log on Linux/macOS</div><div><span class="capability-check">✓</span> Match three basic text patterns</div><div><span class="capability-check">✓</span> Send matching lines to a local TCP server</div><div><span class="capability-gap">—</span> No login, persistent alert inbox, or agent enrollment</div><div><span class="capability-gap">—</span> No support for macOS unified logs</div></div></section>
+          </div>
+          <footer class="page-footer"><span>LINEWATCH <span class="footer-separator">·</span> LOCAL SIMULATION</span><span>Built for demonstration, not operational security.</span></footer>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="agent-modal" role="presentation">
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-topline"><span class="modal-kicker">ADD A SERVER <span>·</span> SETUP NOTES</span><button class="modal-close" type="button" aria-label="Close setup">×</button></div>
+        <h2 id="modal-title">Start with a text log.</h2>
+        <p class="modal-description">The current agent runs on a machine you manage. It reads new lines from a regular file and forwards matching lines to your DIDS server.</p>
+        <div class="os-tabs" role="group" aria-label="Choose operating system"><button class="os-tab active" data-os="linux" type="button">Linux</button><button class="os-tab" data-os="macos" type="button">macOS</button></div>
+        <div id="setup-linux" class="setup-pane">
+          <div class="setup-step"><span>01</span><div><strong>Build the agent on the server</strong><div class="code-block"><code>cd common/agent &amp;&amp; make</code><button class="copy-command" data-copy="cd common/agent &amp;&amp; make" type="button">Copy</button></div></div></div>
+          <div class="setup-step"><span>02</span><div><strong>Point it at a readable text log</strong><div class="code-block"><code>./agent demo /path/to/app.log 127.0.0.1 9000</code><button class="copy-command" data-copy="./agent demo /path/to/app.log 127.0.0.1 9000" type="button">Copy</button></div></div></div>
+          <p class="setup-warning"><span>!</span> The agent begins at the end of the file. It detects only new lines. The server must be reachable at the address you provide.</p>
+        </div>
+        <div id="setup-macos" class="setup-pane hidden">
+          <div class="macos-note"><strong>macOS needs a regular text file.</strong><p>This agent cannot read Apple’s unified logging system or Console.app directly. For a safe local preview, create a file and append synthetic log lines.</p></div>
+          <div class="code-block"><code>touch ~/dids-demo.log</code><button class="copy-command" data-copy="touch ~/dids-demo.log" type="button">Copy</button></div>
+          <div class="code-block second-code"><code>./agent demo ~/dids-demo.log 127.0.0.1 9000</code><button class="copy-command" data-copy="./agent demo ~/dids-demo.log 127.0.0.1 9000" type="button">Copy</button></div>
+          <p class="setup-warning"><span>!</span> Don’t point a demo at personal or production logs. Matching lines are forwarded in full.</p>
+        </div>
+        <div class="modal-footer"><span id="copy-feedback" aria-live="polite">Setup is manual in this prototype.</span><button class="button button-dark modal-done" type="button">Got it</button></div>
+      </section>
+    </div>
+
+    <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -61,7 +61,7 @@ curl -s 'http://localhost:8123/?query=SELECT%20count()%20FROM%20dids.alerts'
 ```
 
 5. Open UIs:
-- Grafana: `http://localhost:3000` (`admin/admin`)
+- Grafana: `http://localhost:3001` (`admin/admin`)
 - Prometheus: `http://localhost:9090`
 
 Stop stack:
@@ -70,6 +70,32 @@ Stop stack:
 ```
 
 ## Run Locally Without Docker
+
+### Open the Linewatch Console
+
+The local customer-facing prototype uses only Python's standard library and runs without Docker. Start the C++ server in one terminal:
+
+```bash
+./common/server/server
+```
+
+Then start the web console in another:
+
+```bash
+python3 scripts/web-app.py
+```
+
+Open `http://127.0.0.1:8000`. The inbox and server inventory are illustrative sample data; the connection status and counters are read live from the local server's metrics endpoint at `127.0.0.1:9464`. The console does not store alerts received by the C++ server.
+
+For a safe end-to-end demo, create a regular text file, start the agent against it, then append synthetic log lines:
+
+```bash
+touch /tmp/linewatch-demo.log
+./common/agent/agent demo /tmp/linewatch-demo.log 127.0.0.1 9000
+echo 'Failed password for demo from 192.0.2.10' >> /tmp/linewatch-demo.log
+```
+
+Stop each process with `Ctrl-C`. Do not point the demo at production or personal logs: matching lines are forwarded in full. This prototype has no login, secure agent enrollment, or tenant isolation; keep it local.
 
 ### 1. Build binaries
 

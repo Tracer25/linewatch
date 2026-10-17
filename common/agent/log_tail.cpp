@@ -26,8 +26,7 @@ std::string LogTail::get_next_line() {
         return "";
     }
 
-    //change the input pointer to last position
-
+    file_.clear();
     file_.seekg(last_pos_);
     std::string line;
     if (std::getline(file_, line)) {
