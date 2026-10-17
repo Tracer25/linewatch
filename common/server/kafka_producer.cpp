@@ -19,7 +19,7 @@ bool KafkaProducer::connect() {
     if (pipe_) return true;
 
     // kcat reads lines from stdin and sends one message per line.
-    const std::string cmd = "kcat -P -b " + brokers_ + " -t " + topic_ + " 2>/tmp/dids-kcat.err";
+    const std::string cmd = "kcat -P -b " + brokers_ + " -t " + topic_ + " 2>/tmp/linewatch-kcat.err";
     pipe_ = popen(cmd.c_str(), "w");
     if (!pipe_) {
         std::cerr << "[Kafka] Failed to start kcat producer process." << std::endl;

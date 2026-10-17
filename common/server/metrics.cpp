@@ -55,29 +55,29 @@ void Metrics::inc_alerts_publish_failed() {
 
 std::string Metrics::render_prometheus() const {
     std::string out;
-    out += "# HELP dids_server_connections_total Total accepted agent connections\n";
-    out += "# TYPE dids_server_connections_total counter\n";
-    out += "dids_server_connections_total " + std::to_string(connections_total_.load()) + "\n";
+    out += "# HELP linewatch_server_connections_total Total accepted agent connections\n";
+    out += "# TYPE linewatch_server_connections_total counter\n";
+    out += "linewatch_server_connections_total " + std::to_string(connections_total_.load()) + "\n";
 
-    out += "# HELP dids_server_disconnections_total Total agent disconnections\n";
-    out += "# TYPE dids_server_disconnections_total counter\n";
-    out += "dids_server_disconnections_total " + std::to_string(disconnections_total_.load()) + "\n";
+    out += "# HELP linewatch_server_disconnections_total Total agent disconnections\n";
+    out += "# TYPE linewatch_server_disconnections_total counter\n";
+    out += "linewatch_server_disconnections_total " + std::to_string(disconnections_total_.load()) + "\n";
 
-    out += "# HELP dids_server_alerts_received_total Total parsed alerts received\n";
-    out += "# TYPE dids_server_alerts_received_total counter\n";
-    out += "dids_server_alerts_received_total " + std::to_string(alerts_received_total_.load()) + "\n";
+    out += "# HELP linewatch_server_alerts_received_total Total parsed alerts received\n";
+    out += "# TYPE linewatch_server_alerts_received_total counter\n";
+    out += "linewatch_server_alerts_received_total " + std::to_string(alerts_received_total_.load()) + "\n";
 
-    out += "# HELP dids_server_alerts_malformed_total Total malformed alerts\n";
-    out += "# TYPE dids_server_alerts_malformed_total counter\n";
-    out += "dids_server_alerts_malformed_total " + std::to_string(alerts_malformed_total_.load()) + "\n";
+    out += "# HELP linewatch_server_alerts_malformed_total Total malformed alerts\n";
+    out += "# TYPE linewatch_server_alerts_malformed_total counter\n";
+    out += "linewatch_server_alerts_malformed_total " + std::to_string(alerts_malformed_total_.load()) + "\n";
 
-    out += "# HELP dids_server_alerts_published_total Total alerts published to Kafka\n";
-    out += "# TYPE dids_server_alerts_published_total counter\n";
-    out += "dids_server_alerts_published_total " + std::to_string(alerts_published_total_.load()) + "\n";
+    out += "# HELP linewatch_server_alerts_published_total Total alerts published to Kafka\n";
+    out += "# TYPE linewatch_server_alerts_published_total counter\n";
+    out += "linewatch_server_alerts_published_total " + std::to_string(alerts_published_total_.load()) + "\n";
 
-    out += "# HELP dids_server_alerts_publish_failed_total Total Kafka publish failures\n";
-    out += "# TYPE dids_server_alerts_publish_failed_total counter\n";
-    out += "dids_server_alerts_publish_failed_total " + std::to_string(alerts_publish_failed_total_.load()) + "\n";
+    out += "# HELP linewatch_server_alerts_publish_failed_total Total Kafka publish failures\n";
+    out += "# TYPE linewatch_server_alerts_publish_failed_total counter\n";
+    out += "linewatch_server_alerts_publish_failed_total " + std::to_string(alerts_publish_failed_total_.load()) + "\n";
 
     return out;
 }

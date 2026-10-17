@@ -1,6 +1,6 @@
-# DIDS (Distributed Intrusion Detection System)
+# Linewatch
 
-DIDS is a small distributed intrusion-detection pipeline built with C++ agents and a central C++ server.
+Linewatch is a lightweight intrusion-detection pipeline built with C++ agents and a central C++ server.
 
 - Agents tail log files, apply lightweight detection rules, and emit alerts as newline-delimited JSON over TCP.
 - The server accepts alerts from many agents, validates and aggregates them, exposes Prometheus metrics, and optionally publishes alerts to Kafka.
@@ -13,7 +13,7 @@ DIDS is a small distributed intrusion-detection pipeline built with C++ agents a
 - `common/alert.*` - Shared alert model and JSON serialization/parsing.
 - `infra/` - ClickHouse schema, Prometheus config, OTel collector config, and Grafana provisioning.
 - `scripts/` - Convenience scripts for bringing the stack up/down and sending a sample alert.
-- `common/mortgage_rag` - Separate Python RAG demo app (not part of DIDS alert pipeline).
+- `common/mortgage_rag` - Separate Python RAG demo app, unrelated to the alert pipeline.
 
 ## Alert Format (NDJSON over TCP)
 
@@ -57,7 +57,7 @@ curl -s http://localhost:9464/metrics
 
 4. Verify ClickHouse ingestion:
 ```bash
-curl -s 'http://localhost:8123/?query=SELECT%20count()%20FROM%20dids.alerts'
+curl -s 'http://localhost:8123/?query=SELECT%20count()%20FROM%20linewatch.alerts'
 ```
 
 5. Open UIs:
@@ -140,25 +140,25 @@ The agent polls for new log lines every 100ms and retries server connection on s
 ## Metrics Exposed by Server
 
 On `GET /metrics`:
-- `dids_server_connections_total`
-- `dids_server_disconnections_total`
-- `dids_server_alerts_received_total`
-- `dids_server_alerts_malformed_total`
-- `dids_server_alerts_published_total`
-- `dids_server_alerts_publish_failed_total`
+- `linewatch_server_connections_total`
+- `linewatch_server_disconnections_total`
+- `linewatch_server_alerts_received_total`
+- `linewatch_server_alerts_malformed_total`
+- `linewatch_server_alerts_published_total`
+- `linewatch_server_alerts_publish_failed_total`
 
 ## ClickHouse Pipeline
 
 `infra/clickhouse/init.sql` creates:
-- `dids.kafka_alerts_raw` (Kafka engine source from `alerts.raw`)
-- `dids.mv_alerts_to_merge_tree` (materialized view transform)
-- `dids.alerts` (MergeTree analytics table)
+- `linewatch.kafka_alerts_raw` (Kafka engine source from `alerts.raw`)
+- `linewatch.mv_alerts_to_merge_tree` (materialized view transform)
+- `linewatch.alerts` (MergeTree analytics table)
 
 Example query:
 
 ```sql
 SELECT rule_name, count() AS c
-FROM dids.alerts
+FROM linewatch.alerts
 GROUP BY rule_name
 ORDER BY c DESC;
 ```
@@ -166,4 +166,4 @@ ORDER BY c DESC;
 ## Notes
 
 - The server also prints periodic in-memory summaries (by rule, agent, severity).
-- The root project currently contains two tracks: DIDS (C++) and a separate `common/mortgage_rag` Python demo.
+- The root project contains the Linewatch (C++) alert pipeline and a separate `common/mortgage_rag` Python demo.

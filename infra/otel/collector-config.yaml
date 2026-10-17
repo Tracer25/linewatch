@@ -2,10 +2,10 @@ receivers:
   prometheus:
     config:
       scrape_configs:
-        - job_name: dids-server
+        - job_name: linewatch-server
           scrape_interval: 5s
           static_configs:
-            - targets: ["dids-server:9464"]
+            - targets: ["linewatch-server:9464"]
 
 processors:
   batch: {}

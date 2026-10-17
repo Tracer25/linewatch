@@ -1,9 +1,9 @@
 apiVersion: 1
 
 providers:
-  - name: dids-dashboards
+  - name: linewatch-dashboards
     orgId: 1
-    folder: DIDS
+    folder: Linewatch
     type: file
     updateIntervalSeconds: 10
     options:

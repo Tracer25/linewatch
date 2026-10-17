@@ -42,13 +42,13 @@
 
           <div class="demo-notice">
             <span class="notice-icon">i</span>
-            <span><strong>SIMULATION MODE.</strong> Alert and server records are examples. Live counters reflect your local DIDS process; no events are sent outside this machine.</span>
+            <span><strong>SIMULATION MODE.</strong> Alert and server records are examples. Live counters reflect your local Linewatch process; no events are sent outside this machine.</span>
             <button class="notice-dismiss" type="button" aria-label="Dismiss notice">×</button>
           </div>
 
           <div class="metrics-grid">
             <article class="metric-card">
-              <div class="metric-label">Agent sessions <span class="info-tip" title="Connections accepted by the local DIDS server since it started">i</span></div>
+              <div class="metric-label">Agent sessions <span class="info-tip" title="Connections accepted by the local Linewatch server since it started">i</span></div>
               <div class="metric-value"><span id="connection-count">—</span><span class="metric-unit">accepted</span></div>
               <div class="metric-foot"><span class="metric-status" id="server-state"><i></i> Checking local server</span><span class="metric-foot-note">since process start</span></div>
               <div class="metric-spark spark-green"><svg viewBox="0 0 140 38" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C12 29 10 19 23 22 S34 29 45 20 S57 23 68 15 S81 20 92 12 S108 22 118 11 S131 13 140 5" /></svg></div>
@@ -79,7 +79,7 @@
               <button class="panel-footer-link" data-go="alerts" type="button">Open all alerts <span>→</span></button>
             </section>
             <section class="panel system-panel">
-              <div class="panel-heading"><div><h3>Sensor link</h3><p>Local DIDS ingestion process</p></div><span class="connection-indicator" id="connection-indicator"><i></i><span>CHECKING</span></span></div>
+              <div class="panel-heading"><div><h3>Sensor link</h3><p>Local Linewatch ingestion process</p></div><span class="connection-indicator" id="connection-indicator"><i></i><span>CHECKING</span></span></div>
               <div class="connection-body">
                 <div class="connection-symbol"><span class="brand-mark small"><span></span><span></span><span></span><span></span></span></div>
                 <div><strong id="connection-title">Looking for your server</strong><p id="connection-description">Checking localhost:9464 for live metrics.</p></div>
@@ -148,7 +148,7 @@
           <div class="page-heading"><div><div class="eyebrow">WORKSPACE <span class="heading-dot">/</span> PREFERENCES</div><h1>Settings</h1><p class="page-subtitle">A few notes on this local preview and the data it uses.</p></div></div>
           <div class="settings-layout">
             <section class="panel settings-panel"><div class="panel-heading"><div><h3>Workspace</h3><p>Local browser preview</p></div></div><div class="setting-row"><div><strong>Workspace name</strong><p>Shown in the console navigation.</p></div><span class="setting-value">Local workspace</span></div><div class="setting-row"><div><strong>Demo records</strong><p>Example alerts and servers are stored in this browser.</p></div><button class="button button-outline button-small" id="reset-demo" type="button">Reset preview</button></div></section>
-            <section class="panel settings-panel"><div class="panel-heading"><div><h3>Data and privacy</h3><p>Read before connecting a real log source</p></div></div><div class="privacy-note"><span class="privacy-icon">!</span><div><strong>Log lines may contain sensitive information.</strong><p>The agent forwards the full line for matches. Use synthetic logs for this demo. This UI has no sign-in, access controls, or secure enrollment. Keep it local; don’t connect production logs or expose the service to a network.</p></div></div><div class="setting-row"><div><strong>Metrics endpoint</strong><p>Local DIDS server, if running.</p></div><code class="setting-code">127.0.0.1:9464</code></div></section>
+            <section class="panel settings-panel"><div class="panel-heading"><div><h3>Data and privacy</h3><p>Read before connecting a real log source</p></div></div><div class="privacy-note"><span class="privacy-icon">!</span><div><strong>Log lines may contain sensitive information.</strong><p>The agent forwards the full line for matches. Use synthetic logs for this demo. This UI has no sign-in, access controls, or secure enrollment. Keep it local; don’t connect production logs or expose the service to a network.</p></div></div><div class="setting-row"><div><strong>Metrics endpoint</strong><p>Local Linewatch server, if running.</p></div><code class="setting-code">127.0.0.1:9464</code></div></section>
             <section class="panel settings-panel"><div class="panel-heading"><div><h3>What works today</h3><p>Prototype boundaries</p></div></div><div class="capability-list"><div><span class="capability-check">✓</span> Tail a regular text log on Linux/macOS</div><div><span class="capability-check">✓</span> Match three basic text patterns</div><div><span class="capability-check">✓</span> Send matching lines to a local TCP server</div><div><span class="capability-gap">—</span> No login, persistent alert inbox, or agent enrollment</div><div><span class="capability-gap">—</span> No support for macOS unified logs</div></div></section>
           </div>
           <footer class="page-footer"><span>LINEWATCH <span class="footer-separator">·</span> LOCAL SIMULATION</span><span>Built for demonstration, not operational security.</span></footer>
@@ -160,7 +160,7 @@
       <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-topline"><span class="modal-kicker">ADD A SERVER <span>·</span> SETUP NOTES</span><button class="modal-close" type="button" aria-label="Close setup">×</button></div>
         <h2 id="modal-title">Start with a text log.</h2>
-        <p class="modal-description">The current agent runs on a machine you manage. It reads new lines from a regular file and forwards matching lines to your DIDS server.</p>
+        <p class="modal-description">The current agent runs on a machine you manage. It reads new lines from a regular file and forwards matching lines to your Linewatch server.</p>
         <div class="os-tabs" role="group" aria-label="Choose operating system"><button class="os-tab active" data-os="linux" type="button">Linux</button><button class="os-tab" data-os="macos" type="button">macOS</button></div>
         <div id="setup-linux" class="setup-pane">
           <div class="setup-step"><span>01</span><div><strong>Build the agent on the server</strong><div class="code-block"><code>cd common/agent &amp;&amp; make</code><button class="copy-command" data-copy="cd common/agent &amp;&amp; make" type="button">Copy</button></div></div></div>
@@ -169,8 +169,8 @@
         </div>
         <div id="setup-macos" class="setup-pane hidden">
           <div class="macos-note"><strong>macOS needs a regular text file.</strong><p>This agent cannot read Apple’s unified logging system or Console.app directly. For a safe local preview, create a file and append synthetic log lines.</p></div>
-          <div class="code-block"><code>touch ~/dids-demo.log</code><button class="copy-command" data-copy="touch ~/dids-demo.log" type="button">Copy</button></div>
-          <div class="code-block second-code"><code>./agent demo ~/dids-demo.log 127.0.0.1 9000</code><button class="copy-command" data-copy="./agent demo ~/dids-demo.log 127.0.0.1 9000" type="button">Copy</button></div>
+          <div class="code-block"><code>touch ~/linewatch-demo.log</code><button class="copy-command" data-copy="touch ~/linewatch-demo.log" type="button">Copy</button></div>
+          <div class="code-block second-code"><code>./agent demo ~/linewatch-demo.log 127.0.0.1 9000</code><button class="copy-command" data-copy="./agent demo ~/linewatch-demo.log 127.0.0.1 9000" type="button">Copy</button></div>
           <p class="setup-warning"><span>!</span> Don’t point a demo at personal or production logs. Matching lines are forwarded in full.</p>
         </div>
         <div class="modal-footer"><span id="copy-feedback" aria-live="polite">Setup is manual in this prototype.</span><button class="button button-dark modal-done" type="button">Got it</button></div>

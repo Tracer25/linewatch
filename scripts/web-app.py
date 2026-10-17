@@ -35,7 +35,7 @@ class Handler(SimpleHTTPRequestHandler):
         for line in metrics.splitlines():
             if line and not line.startswith("#"):
                 name, _, value = line.partition(" ")
-                if name.startswith("dids_server_"):
+                if name.startswith("linewatch_server_"):
                     counters[name] = int(float(value))
         self.send_json(200, {"connected": True, "counters": counters})
 
@@ -51,11 +51,11 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ThreadingHTTPServer(("127.0.0.1", 8000), Handler)
-    print("DIDS Console: http://127.0.0.1:8000")
+    print("Linewatch Console: http://127.0.0.1:8000")
     print("Serving demo UI and proxying metrics from localhost:9464")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\nStopping DIDS Console.")
+        print("\nStopping Linewatch Console.")
     finally:
         server.server_close()

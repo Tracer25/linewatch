@@ -23,9 +23,9 @@ const titles = {
   settings: "Settings",
 };
 
-let alerts = load("dids-demo-alerts", initialAlerts);
-let acknowledged = new Set(load("dids-demo-acknowledged", []));
-let disabledRules = new Set(load("dids-demo-disabled-rules", []));
+let alerts = load("linewatch-demo-alerts", initialAlerts);
+let acknowledged = new Set(load("linewatch-demo-acknowledged", []));
+let disabledRules = new Set(load("linewatch-demo-disabled-rules", []));
 let severityFilter = "all";
 let statusFilter = "all";
 let currentPage = "overview";
@@ -42,9 +42,9 @@ function load(key, fallback) {
 }
 
 function saveState() {
-  localStorage.setItem("dids-demo-alerts", JSON.stringify(alerts));
-  localStorage.setItem("dids-demo-acknowledged", JSON.stringify([...acknowledged]));
-  localStorage.setItem("dids-demo-disabled-rules", JSON.stringify([...disabledRules]));
+  localStorage.setItem("linewatch-demo-alerts", JSON.stringify(alerts));
+  localStorage.setItem("linewatch-demo-acknowledged", JSON.stringify([...acknowledged]));
+  localStorage.setItem("linewatch-demo-disabled-rules", JSON.stringify([...disabledRules]));
 }
 
 function escapeHtml(value) {
@@ -177,7 +177,7 @@ function generateSampleAlert() {
     title: "Failed SSH login (demo)",
     severity: "high",
     server: "local-demo-agent",
-    source: "~/dids-demo.log",
+    source: "~/linewatch-demo.log",
     line: "Failed password for demo from 192.0.2.10",
     minutes: 0,
     acknowledged: false,
@@ -201,13 +201,13 @@ async function refreshMetrics() {
     const result = await response.json();
     if (!response.ok || !result.connected) throw new Error(result.error || "Local server is unavailable");
     const counters = result.counters;
-    const connections = counters.dids_server_connections_total ?? 0;
-    const received = counters.dids_server_alerts_received_total ?? 0;
+    const connections = counters.linewatch_server_connections_total ?? 0;
+    const received = counters.linewatch_server_alerts_received_total ?? 0;
     document.querySelector("#connection-count").textContent = connections.toLocaleString();
     document.querySelector("#alert-count").textContent = received.toLocaleString();
     status.className = "metric-status";
     status.innerHTML = "<i></i> Local server is up";
-    document.querySelector("#alert-counter-note").textContent = `${(counters.dids_server_alerts_malformed_total ?? 0).toLocaleString()} malformed`;
+    document.querySelector("#alert-counter-note").textContent = `${(counters.linewatch_server_alerts_malformed_total ?? 0).toLocaleString()} malformed`;
     indicator.className = "connection-indicator connected";
     indicator.innerHTML = "<i></i><span>CONNECTED</span>";
     document.querySelector("#frame-link-status").textContent = "ONLINE";
@@ -218,7 +218,7 @@ async function refreshMetrics() {
     document.querySelector("#alert-count").textContent = "—";
     status.className = "metric-status offline";
     status.innerHTML = "<i></i> Not reachable";
-    document.querySelector("#alert-counter-note").textContent = "Start the local DIDS server";
+    document.querySelector("#alert-counter-note").textContent = "Start the local Linewatch server";
     indicator.className = "connection-indicator offline";
     indicator.innerHTML = "<i></i><span>OFFLINE</span>";
     document.querySelector("#frame-link-status").textContent = "OFFLINE";

@@ -24,14 +24,14 @@ services:
   clickhouse:
     image: clickhouse/clickhouse-server:25.1
     environment:
-      CLICKHOUSE_DB: dids
+      CLICKHOUSE_DB: linewatch
       CLICKHOUSE_USER: default
       CLICKHOUSE_PASSWORD: ""
     ports:
       - "8123:8123"
       - "9001:9000"
     volumes:
-      - clickhouse_data:/var/lib/clickhouse
+      - linewatch_clickhouse_data:/var/lib/clickhouse
 
   clickhouse-init:
     image: clickhouse/clickhouse-server:25.1
@@ -49,7 +49,7 @@ services:
       clickhouse-client --host clickhouse --multiquery < /init.sql'
     restart: "no"
 
-  dids-server:
+  linewatch-server:
     build:
       context: .
       dockerfile: common/server/Dockerfile
@@ -69,7 +69,7 @@ services:
     volumes:
       - ./infra/otel/collector-config.yaml:/etc/otel-collector/config.yaml:ro
     depends_on:
-      - dids-server
+      - linewatch-server
     ports:
       - "8889:8889"
 
@@ -80,7 +80,7 @@ services:
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
-      - dids-server
+      - linewatch-server
       - otel-collector
     ports:
       - "9090:9090"
@@ -101,4 +101,4 @@ services:
       - "3001:3000"
 
 volumes:
-  clickhouse_data:
+  linewatch_clickhouse_data:

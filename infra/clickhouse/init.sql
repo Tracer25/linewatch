@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS dids;
+CREATE DATABASE IF NOT EXISTS linewatch;
 
-CREATE TABLE IF NOT EXISTS dids.alerts
+CREATE TABLE IF NOT EXISTS linewatch.alerts
 (
     ingest_time DateTime DEFAULT now(),
     ts DateTime,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS dids.alerts
 ENGINE = MergeTree
 ORDER BY (ts, agent_id, rule_name);
 
-CREATE TABLE IF NOT EXISTS dids.kafka_alerts_raw
+CREATE TABLE IF NOT EXISTS linewatch.kafka_alerts_raw
 (
     agent_id String,
     ts String,
@@ -26,12 +26,12 @@ ENGINE = Kafka
 SETTINGS
     kafka_broker_list = 'redpanda:9092',
     kafka_topic_list = 'alerts.raw',
-    kafka_group_name = 'dids_clickhouse',
+    kafka_group_name = 'linewatch_clickhouse',
     kafka_format = 'JSONEachRow',
     kafka_num_consumers = 1;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS dids.mv_alerts_to_merge_tree
-TO dids.alerts
+CREATE MATERIALIZED VIEW IF NOT EXISTS linewatch.mv_alerts_to_merge_tree
+TO linewatch.alerts
 AS
 SELECT
     now() AS ingest_time,
@@ -41,4 +41,4 @@ SELECT
     severity,
     src AS source_file,
     line AS original_log_line
-FROM dids.kafka_alerts_raw;
+FROM linewatch.kafka_alerts_raw;

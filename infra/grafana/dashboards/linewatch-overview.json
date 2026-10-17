@@ -13,7 +13,7 @@
       "id": 1,
       "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showThresholdLabels": false, "showThresholdMarkers": true},
       "pluginVersion": "11.6.1",
-      "targets": [{"expr": "dids_server_alerts_received_total", "refId": "A"}],
+      "targets": [{"expr": "linewatch_server_alerts_received_total", "refId": "A"}],
       "title": "Alerts Received (Total)",
       "type": "stat"
     },
@@ -24,7 +24,7 @@
       "id": 2,
       "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showThresholdLabels": false, "showThresholdMarkers": true},
       "pluginVersion": "11.6.1",
-      "targets": [{"expr": "dids_server_alerts_publish_failed_total", "refId": "A"}],
+      "targets": [{"expr": "linewatch_server_alerts_publish_failed_total", "refId": "A"}],
       "title": "Kafka Publish Failures", 
       "type": "stat"
     },
@@ -36,9 +36,9 @@
       "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "single"}},
       "pluginVersion": "11.6.1",
       "targets": [
-        {"expr": "rate(dids_server_alerts_received_total[1m])", "legendFormat": "received/sec", "refId": "A"},
-        {"expr": "rate(dids_server_alerts_published_total[1m])", "legendFormat": "published/sec", "refId": "B"},
-        {"expr": "rate(dids_server_alerts_malformed_total[1m])", "legendFormat": "malformed/sec", "refId": "C"}
+        {"expr": "rate(linewatch_server_alerts_received_total[1m])", "legendFormat": "received/sec", "refId": "A"},
+        {"expr": "rate(linewatch_server_alerts_published_total[1m])", "legendFormat": "published/sec", "refId": "B"},
+        {"expr": "rate(linewatch_server_alerts_malformed_total[1m])", "legendFormat": "malformed/sec", "refId": "C"}
       ],
       "title": "Server Alert Rates",
       "type": "timeseries"
@@ -47,12 +47,12 @@
   "refresh": "5s",
   "schemaVersion": 40,
   "style": "dark",
-  "tags": ["dids"],
+  "tags": ["linewatch"],
   "templating": {"list": []},
   "time": {"from": "now-15m", "to": "now"},
   "timepicker": {},
   "timezone": "browser",
-  "title": "DIDS Overview",
+  "title": "Linewatch Overview",
   "version": 1,
   "weekStart": ""
 }
